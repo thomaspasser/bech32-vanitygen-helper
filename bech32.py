@@ -25,6 +25,10 @@ def encode(b):
 
 s = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
 
+if len(sys.argv) < 2:
+    print("Please pass a string argument to this script")
+    exit(1)
+
 addr = sys.argv[1]
 
 if addr[0] != s[0]:
