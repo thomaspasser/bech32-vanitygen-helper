@@ -8,8 +8,8 @@ def printUsage():
     print("\t Example: python " + sys.argv[0] + " -p [pattern] | ./vanitygen -f -")
 
 def encode(b):
-    """Encode bytes to a base58-encoded string"""
-    # Convert big-endian bytes to integer
+    """Encode hex string to a base58-encoded string"""
+    # Convert hex string to integer
     n = int(b, 16)
     # Divide that integer into bas58
     res = []
@@ -28,7 +28,7 @@ def encode(b):
     return b58_digits[0] * pad + res
 
 
-s = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
+bech32_digits = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
 
 pipe = False
 
@@ -56,16 +56,16 @@ else:
         exit(1)
     addr = sys.argv[2]
 
-if addr[0] != s[0]:
+if addr[0] != bech32_digits[0]:
     print("First letter must be q")
 else:
-    if addr[1] not in s[:4]:
+    if addr[1] not in bech32_digits[:4]:
         print("Second letter must be one of q|p|z|r")
     else:
         allValid = True;
         for letter in addr:
-            if letter not in s:
-                print("All letters must be one of " + s)
+            if letter not in bech32_digits:
+                print("All letters must be one of " + bech32_digits)
                 allValid = False
                 break
         if allValid:
@@ -76,7 +76,7 @@ else:
                 # Good to go
                 binaryString = ""
                 for letter in addr:
-                    binaryString += format(s.find(letter),'05b')
+                    binaryString += format(bech32_digits.find(letter),'05b')
 
                 if len(binaryString) % 4 != 0:
                     # If not divisable by four we need to append in binary instead
