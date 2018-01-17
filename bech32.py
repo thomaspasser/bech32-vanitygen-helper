@@ -56,6 +56,7 @@ else:
         exit(1)
     addr = sys.argv[2]
 
+
 if addr[0] != bech32_digits[0]:
     print("First letter must be q")
 else:
@@ -65,7 +66,7 @@ else:
         allValid = True;
         for letter in addr:
             if letter not in bech32_digits:
-                print("All letters must be one of " + bech32_digits)
+                print("All letters must be one of " + ''.join(sorted(bech32_digits)))
                 allValid = False
                 break
         if allValid:
