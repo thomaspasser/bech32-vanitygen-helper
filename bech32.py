@@ -96,9 +96,8 @@ else:
                     ind1 = b58_digits.find(emin[idif+1])
                     ind2 = b58_digits.find(emax[idif+1])
 
-                    sol = []
                     for i in range(ind1+1,len(b58_digits)):
                         print ecut + emin[idif] + b58_digits[i],
 
-                    for i in range(1,ind2):
+                    for i in range(0,ind2):
                         print ecut + emax[idif] + b58_digits[i],
