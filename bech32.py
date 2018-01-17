@@ -53,8 +53,6 @@ else:
                 for letter in addr:
                     binaryString += format(s.find(letter),'05b')
 
-                #print("Binary: " + binaryString)
-
                 if len(binaryString) % 4 != 0:
                     # If not divisable by four we need to append in binary instead
                     bmin = binaryString + "0"*(200-len(binaryString))
@@ -65,30 +63,20 @@ else:
                     hmax = '%0*X' % ((len(bmax) + 3) // 4, int(bmax, 2))
                 else:
                     h = '%0*X' % ((len(binaryString) + 3) // 4, int(binaryString, 2))
-                    #print("Hex: " + h)
 
                     hmin = h + "0"*(50-len(h))
                     hmax = h + "F"*(50-len(h))
 
-                #print("Min: " + hmin)
-                #print("Max: " + hmax)
-
                 emin = encode(hmin)
-                #print(emin)
                 emax = encode(hmax)
-                #print(emax)
 
                 for i in range(0,len(emin)+1):
                     if emin[i] != emax[i]:
                         idif = i
-                        #print(emin[i])
-                        #print(emax[i])
                         break
 
                 ecut = emin[:idif]
-                #print(ecut)
 
-                #im = min(ord(emin[idif]),ord(emax[idif]))
                 ind1 = b58_digits.find(emin[idif])
                 ind2 = b58_digits.find(emax[idif])
                 im = min(ind1,ind2)
@@ -98,7 +86,6 @@ else:
                 letters = ""
                 for i in range(im+1,im+d):
                     letters += b58_digits[i]
-                #print(letters)
 
                 print("Have vanitygen search for:")
 
@@ -106,7 +93,6 @@ else:
                     for letter in letters:
                         print ecut + letter,
                 else:
-                    #print("Need to look at next letter")
                     ind1 = b58_digits.find(emin[idif+1])
                     ind2 = b58_digits.find(emax[idif+1])
 
