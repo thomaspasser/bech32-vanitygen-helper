@@ -2,6 +2,11 @@ import sys
 
 b58_digits = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
+def printUsage():
+    print("Usage: python " + sys.argv[0] + " (-p) [pattern]")
+    print("Options:\n -p\t Print in pipe format")
+    print("\t Example: python " + sys.argv[0] + " -p [pattern] | ./vanitygen -f -")
+
 def encode(b):
     """Encode bytes to a base58-encoded string"""
     # Convert big-endian bytes to integer
@@ -25,11 +30,31 @@ def encode(b):
 
 s = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
 
+pipe = False
+
 if len(sys.argv) < 2:
-    print("Usage: python " + sys.argv[0] + " [pattern]")
+    printUsage()
     exit(1)
 
-addr = sys.argv[1]
+if len(sys.argv) < 3:
+    if sys.argv[1] == sys.argv[1] == "-p":
+        print("Pattern missing")
+        printUsage()
+        exit(1)
+    elif "-" not in sys.argv[1]:
+        addr = sys.argv[1]
+    else:
+        print("Unknown option '" + sys.argv[1] + "'")
+        printUsage()
+        exit(1)
+else:
+    if sys.argv[1] == "-p":
+        pipe = True
+    else:
+        print("Invalid option '" + sys.argv[1] + "'")
+        printUsage()
+        exit(1)
+    addr = sys.argv[2]
 
 if addr[0] != s[0]:
     print("First letter must be q")
@@ -87,17 +112,24 @@ else:
                 for i in range(im+1,im+d):
                     letters += b58_digits[i]
 
-                print("Have vanitygen search for:")
-
+                sol = []
                 if len(letters) != 0:
                     for letter in letters:
-                        print ecut + letter,
+                        sol.append(ecut + letter)
                 else:
                     ind1 = b58_digits.find(emin[idif+1])
                     ind2 = b58_digits.find(emax[idif+1])
 
                     for i in range(ind1+1,len(b58_digits)):
-                        print ecut + emin[idif] + b58_digits[i],
+                        sol.append(ecut + emin[idif] + b58_digits[i])
 
                     for i in range(0,ind2):
-                        print ecut + emax[idif] + b58_digits[i],
+                        sol.append(ecut + emax[idif] + b58_digits[i])
+
+                if not pipe:
+                    print("Have vanitygen search for:")
+                    for s in sol:
+                        print s,
+                else:
+                    for s in sol:
+                        print(s)
