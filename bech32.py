@@ -130,7 +130,7 @@ else:
                 if not pipe:
                     print("Have vanitygen search for:")
                     for s in sol:
-                        print s,
+                        print(s),
                 else:
                     for s in sol:
                         print(s)
